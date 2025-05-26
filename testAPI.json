@@ -1,0 +1,26 @@
+{
+    "calls": [
+            {   
+                "service": "mathService",
+                "method": "Fibonacci",
+                "parameters": 10
+            },
+            {
+                "service": "mathService",
+                "method": "multiplyMatrices",
+                "parameters": [
+                    [1,2,3,4], [2,3,4,5]
+                ]
+            },
+            {          
+                "service": "userService",
+                "method": "getUserProfile",
+                "parameters": 1
+            },
+             {
+                "service": "imageService",
+                "method": "getImageByName",
+                "parameters": "image1.jpg"
+            }
+    ]
+}
