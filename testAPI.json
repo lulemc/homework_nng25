@@ -20,7 +20,7 @@
              {
                 "service": "imageService",
                 "method": "getImageByName",
-                "parameters": "image1.jpg"
+                "parameters": "cat1.jpg"
             }
     ]
 }

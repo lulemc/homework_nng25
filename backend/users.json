@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "user_name": "cmcphate0",
+    "email": "kscarlett0@uiuc.edu",
+    "picture": "public/assets/cat1.jpg"
+  },
+  {
+    "id": 2,
+    "user_name": "cboyall1",
+    "email": "sfehner1@cloudflare.com",
+    "picture": "public/assets/cat1.jpg"
+  },
+  {
+    "id": 3,
+    "user_name": "abatters2",
+    "email": "lfurneaux2@nba.com",
+    "picture": "public/assets/cat2.png"
+  },
+  {
+    "id": 4,
+    "user_name": "ajewar3",
+    "email": "ngouny3@wp.com",
+    "picture": "public/assets/cat3.webp"
+  },
+  {
+    "id": 5,
+    "user_name": "pdolman4",
+    "email": "sdemalchar4@reddit.com",
+    "picture": "public/assets/cat3.webp"
+  },
+  {
+    "id": 6,
+    "user_name": "lhadfield5",
+    "email": "wtinmouth5@wordpress.org",
+    "picture": null
+  },
+  {
+    "id": 7,
+    "user_name": "wbirdsey6",
+    "email": "dsuggate6@latimes.com",
+    "picture": null
+  }
+]
