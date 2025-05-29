@@ -91,7 +91,7 @@ function toggleAlign() {
   }
 }
 
-function selectApi(prop) {
+function selectApi() {
   const select = $("#apis-select").find(":selected").val();
   if (select === "mathService") {
     $("#editor").val(mathServiceHelpText);
@@ -130,19 +130,23 @@ function run() {
           $("#result").css("color", "#a5243d");
           $("#show-result").html(`<div></div>`);
         }
+        console.log("nem ok");
         return response.json();
       })
       .then((data) => {
         const pretty = JSON.stringify(data, null, 2);
         resultBlock.textContent = pretty;
         hljs.highlightElement(resultBlock);
-        $(".result-container").css("display", "flex");
 
         if (selectedService !== "mathService") {
           showResult(data);
         } else {
           $("#show-result").html(`<div></div>`);
         }
+
+        $(".result-container").css("display", "flex");
+        $("#result").css("width", "20vw");
+        $("#result").css("color", "var(--color-fg)");
 
         spinner.css("display", "none");
       })
