@@ -1,11 +1,4 @@
-const mathServiceHelpText = `
-    { 
-    "method": "Fibonacci",
-    "parameters": 10
-    }
-`;
-
-const mathServiceHelpTextes = `#Fibonacci sequence for 10th number:
+const mathServiceHelpText = `#Fibonacci sequence for 10th number:
     { 
     "method": "Fibonacci",
     "parameters": 10
