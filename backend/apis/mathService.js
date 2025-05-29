@@ -27,18 +27,8 @@ function multiplyMatrices(params) {
       return reject(new Error("Inputs must be arrays."));
     }
 
-    if (!Array.isArray(a[0]) && !Array.isArray(b[0])) {
-      if (a.length !== b.length) {
-        return reject(new Error("Vector lengths do not match."));
-      }
-
-      const result = a.reduce((sum, val, i) => sum + val * b[i], 0);
-      return resolve(result);
-    }
-
-    const aCols = a[0].length;
+    const aCols = a.length;
     const bRows = b.length;
-    const bCols = b[0].length;
 
     if (aCols !== bRows) {
       return reject(
@@ -46,16 +36,10 @@ function multiplyMatrices(params) {
       );
     }
 
-    const result = Array.from({ length: a.length }, () =>
-      Array.from({ length: bCols }, () => 0)
-    );
+    let result = Array.from({ length: a.length }, () => 0);
 
     for (let i = 0; i < a.length; i++) {
-      for (let j = 0; j < bCols; j++) {
-        for (let k = 0; k < aCols; k++) {
-          result[i][j] += a[i][k] * b[k][j];
-        }
-      }
+      result[i] += a[i] * b[i];
     }
 
     resolve(result);

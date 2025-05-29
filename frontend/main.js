@@ -1,73 +1,57 @@
-const mathServiceHelpText = `#Fibonacci sequence for 10th number:
-    { 
-    "method": "Fibonacci",
-    "parameters": 10
-    }
+const helpTexts = {
+  mathService: `#Fibonacci sequence for 10th number:
+{
+  "method": "Fibonacci",
+  "parameters": 10
+}
 
 #Matrix multiplication of two 2x2 matrices:
-    {
-    "method": "multiplyMatrices",
-    "parameters": 
-        [[1,2,3,4], [2,3,4,5]]
-    }`;
+{
+  "method": "multiplyMatrices",
+  "parameters": [[1, 2, 3, 4], [2, 3, 4, 5]]
+}`,
 
-const userServiceHelpText = `#Get user information by ID:
-    {
-    "method": "getUserProfile",
-    "parameters": 1
-    }`;
+  userService: `#Get user information by ID:
+{
+  "method": "getUserProfile",
+  "parameters": 1
+}`,
 
-const imageServiceHelpText = `#Get image by Name:
-    {
-    "method": "getImageByName",
-    "parameters": "cat1.jpg"
-    }`;
+  imageService: `#Get image by Name:
+{
+  "method": "getImageByName",
+  "parameters": "cat1.jpg"
+}`,
+};
 
-function calculateSettingAsThemeString({
-  localStorageTheme,
-  systemSettingDark,
-}) {
-  if (localStorageTheme !== null) {
-    return localStorageTheme;
-  }
-
-  if (systemSettingDark.matches) {
-    return "dark";
-  }
-
-  return "light";
+function calculateTheme({ localStorageTheme, systemSettingDark }) {
+  return localStorageTheme ?? (systemSettingDark.matches ? "dark" : "light");
 }
 
-function updateButton({ buttonEl, isDark }) {
-  const newIcon = isDark ? "☀️" : "🌙";
-  buttonEl.html(newIcon);
+function updateThemeButton(buttonEl, isDark) {
+  buttonEl.html(isDark ? "☀️" : "🌙");
 }
 
-function updateTheme({ theme }) {
+function applyTheme(theme) {
   document.querySelector("html").setAttribute("data-theme", theme);
 }
 
 function toggleTheme() {
   const button = $("#theme-toggle");
-
   const localStorageTheme = localStorage.getItem("theme");
   const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-  let currentThemeSetting = calculateSettingAsThemeString({
-    localStorageTheme,
-    systemSettingDark,
-  });
+  const currentTheme = calculateTheme({ localStorageTheme, systemSettingDark });
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-  const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
   localStorage.setItem("theme", newTheme);
-  updateButton({ buttonEl: button, isDark: newTheme === "dark" });
-  updateTheme({ theme: newTheme });
-  currentThemeSetting = newTheme;
+  updateThemeButton(button, newTheme === "dark");
+  applyTheme(newTheme);
 }
 
 function toggleAlign() {
   const button = $("#align-toggle");
-  const currentAlign = localStorage.getItem("align");
+  const currentAlign = localStorage.getItem("align") || "left";
   const newAlign = currentAlign === "left" ? "right" : "left";
 
   localStorage.setItem("align", newAlign);
@@ -77,54 +61,44 @@ function toggleAlign() {
       : "<span>⬅️</span> Left Align"
   );
 
-  if (newAlign === "left") {
-    $(".control-buttons").css("justify-content", "start");
-  } else {
-    $(".control-buttons").css("justify-content", "end");
-  }
+  $(".control-buttons").css(
+    "justify-content",
+    newAlign === "left" ? "start" : "end"
+  );
 }
 
 function selectApi() {
-  const select = $("#apis-select").find(":selected").val();
-  if (select === "mathService") {
-    $("#editor").val(mathServiceHelpText);
-  }
-  if (select === "userService") {
-    $("#editor").val(userServiceHelpText);
-  }
-  if (select === "imageService") {
-    $("#editor").val(imageServiceHelpText);
-  }
+  const selectedService = $("#apis-select").val();
+  $("#editor").val(helpTexts[selectedService] || "");
 }
 
 function run() {
   const editor = $("#editor");
-  const selectedService = $("#apis-select").find(":selected").val();
+  const selectedService = $("#apis-select").val();
   const spinner = $(".loader");
   const resultBlock = document.getElementById("result");
-  const apiText = editor.val();
+  const resultContainer = $(".result-container");
+  const showResult = $("#show-result");
+  const result = $("#result");
 
   try {
-    spinner.css("display", "block");
-    const apiObject = JSON.parse(apiText);
-    apiObject["service"] = selectedService;
+    spinner.show();
+    const apiObject = JSON.parse(editor.val());
+    apiObject.service = selectedService;
 
     fetch("http://localhost:3000/api", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(apiObject),
     })
-      .then((response) => {
-        if (!response.ok) {
-          $(".result-container").css("display", "flex");
-          $("#result").css("width", "48vw");
-          $("#result").css("color", "#a5243d");
-          $("#show-result").html(`<div></div>`);
+      .then((res) => {
+        if (!res.ok) {
+          resultContainer.css("display", "flex");
+          result.css({ width: "48vw", color: "#a5243d" });
+          showResult.html("<div></div>");
+          console.log("Request failed.");
         }
-        console.log("nem ok");
-        return response.json();
+        return res.json();
       })
       .then((data) => {
         const pretty = JSON.stringify(data, null, 2);
@@ -132,50 +106,51 @@ function run() {
         hljs.highlightElement(resultBlock);
 
         if (selectedService !== "mathService") {
-          showResult(data);
+          displayResult(data);
         } else {
-          $("#show-result").html(`<div></div>`);
+          showResult.html("<div></div>");
         }
 
-        $(".result-container").css("display", "flex");
-        $("#result").css("width", "20vw");
-        $("#result").css("color", "var(--color-fg)");
-
-        spinner.css("display", "none");
+        resultContainer.css("display", "flex");
+        showResult.css({ width: "22vw", color: "var(--color-fg)" });
+        spinner.hide();
       })
       .catch((error) => {
-        spinner.css("display", "none");
+        console.error("Fetch error:", error);
+        spinner.hide();
       });
   } catch (error) {
-    spinner.css("display", "none");
+    spinner.hide();
     alert("Please enter a valid JSON object.");
   }
 }
 
-function showResult(data) {
+function displayResult(data) {
   const showResult = $("#show-result");
+  const result = data.result;
 
-  if (data.result && data.result.url) {
-    showResult.html(
-      `<div class="profile-picture">
-          <img src="${data.result.url}" alt="profile-picture">
-        </div>`
-    );
+  if (result?.url) {
+    showResult.html(`
+      <div class="profile-picture">
+        <img src="${result.url}" alt="profile-picture">
+      </div>
+    `);
+  } else if (result?.picture && result?.user_name && result?.email) {
+    showResult.html(`
+      <div class="user-card">
+        <img src="${result.picture}" alt="profile-picture">
+        <div>
+          <div class="label">${result.user_name}</div>
+          <div class="label">${result.email}</div>
+        </div>
+      </div>
+    `);
   } else {
-    showResult.html(
-      `<div class="user-card">
-          <img src="${data.result.picture}" alt="profile-picture">
-          <div>
-            <div class="label">${data.result.user_name}</div>
-            <div class="label">${data.result.email}</div>
-          </div>
-        </div>`
-    );
+    showResult.html("<div>No visual result to display.</div>");
   }
 }
 
 $(document).ready(function () {
   localStorage.setItem("align", "left");
-  const editor = $("#editor");
-  editor.val(mathServiceHelpText);
+  $("#editor").val(helpTexts.mathService);
 });

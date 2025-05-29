@@ -74,11 +74,9 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ```json
 {
-    {
-      "service": "mathService",
-      "method": "getFibonacci",
-      "params": 10
-    }
+  "service": "mathService",
+  "method": "getFibonacci",
+  "params": 10
 }
 ```
 
