@@ -53,8 +53,8 @@ project-root/
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/json-api-dispatcher.git
-cd json-api-dispatcher
+git clone https://github.com/lulemc/homework_nng25
+cd homework_nng25
 npm install
 ```
 

@@ -85,6 +85,7 @@ function run() {
     spinner.show();
     const apiObject = JSON.parse(editor.val());
     apiObject.service = selectedService;
+    showResult.css({ width: "22vw", color: "var(--color-fg)" });
 
     fetch("http://localhost:3000/api", {
       method: "POST",
