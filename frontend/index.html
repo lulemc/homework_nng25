@@ -1,11 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div>Halo</div>
-  </body>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/frontend/style.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="frontend/main.js"></script>
+  <title>API application</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+<script>
+  hljs.highlightAll();
+</script>
+
+<body>
+  <div class="container">
+    <h1>Welcome to my API Application!</h1>
+    <div class="control-buttons">
+      <div class="select">
+        <select name="apis" id="apis-select" onchange="selectApi()">
+          <option value="mathService">mathService</option>
+          <option value="userService">userService</option>
+          <option value="imageService">imageService</option>
+        </select>
+      </div>
+      <div>
+        <button type="button" id="theme-toggle" data-theme-toggle aria-label="Change to light theme"
+          onclick="toggleTheme()">
+          🌙
+        </button>
+      </div>
+      <div>
+        <button type="button" id="align-toggle" onclick="toggleAlign()">
+          <span>➡️</span> Right Align
+        </button>
+      </div>
+    </div>
+    <div>
+      <textarea id="editor"></textarea>
+    </div>
+    <div class="control-buttons">
+      <button type="button" id="align-toggle" onclick="run()">Run</button>
+    </div>
+    <div class="result-container">
+      <pre>
+            <code id="result" class="json"></code>
+          </pre>
+      <div id="show-result">
+      
+      </div>
+    </div>
+    <div class="loader"></div>
+  </div>
+  </div>
+</body>
+
 </html>
