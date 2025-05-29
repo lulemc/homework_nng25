@@ -20,7 +20,6 @@ function getUserProfile(id) {
 
         const cleanedUser = {
           ...user,
-          picture: user.picture.replace(/^public\//, "/"),
         };
 
         resolve(cleanedUser);

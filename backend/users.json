@@ -33,12 +33,12 @@
     "id": 6,
     "user_name": "lhadfield5",
     "email": "wtinmouth5@wordpress.org",
-    "picture": null
+    "picture": "public/assets/cat3.webp"
   },
   {
     "id": 7,
     "user_name": "wbirdsey6",
     "email": "dsuggate6@latimes.com",
-    "picture": null
+    "picture": "public/assets/cat2.png"
   }
 ]

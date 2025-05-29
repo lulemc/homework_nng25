@@ -9,7 +9,7 @@ async function getImageByName(imageName) {
         return reject(new Error(`Image '${imageName}' not found.`));
       }
 
-      const publicPath = `/assets/${imageName}`;
+      const publicPath = `public/assets/${imageName}`;
       resolve({ url: publicPath });
     });
   });

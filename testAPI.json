@@ -1,5 +1,4 @@
-{
-    "calls": [
+ [
             {   
                 "service": "mathService",
                 "method": "Fibonacci",
@@ -23,4 +22,3 @@
                 "parameters": "cat1.jpg"
             }
     ]
-}

@@ -5,18 +5,19 @@ const path = require("path");
 const { dispatch } = require("./backend/dispatcher");
 
 const app = express();
+app.use(express.static(__dirname + "/"));
+
 const PORT = 3000;
-// parsing the body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.status(200);
-  res.sendFile(path.join(__dirname, "frontend/index.html")); // show index.html
+  res.sendFile(path.join(__dirname, "/frontend/index.html"));
   log();
 });
 
-app.post("/try", (req, res) => {
+app.post("/api", (req, res) => {
   dispatch(req.body)
     .then((result) => {
       res.status(200).json(result);
